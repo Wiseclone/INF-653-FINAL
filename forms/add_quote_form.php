@@ -17,4 +17,3 @@
         <input type="submit" value="Add Quote" class="button blue"><br>
     </form>
 </main>
-<?php include '../view/footer.php'; ?>

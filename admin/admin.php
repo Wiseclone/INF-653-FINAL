@@ -17,8 +17,7 @@
             $author_id = filter_input(INPUT_GET, 'author_id', FILTER_VALIDATE_INT);
             $category_id = filter_input(INPUT_GET, 'category_id', FILTER_VALIDATE_INT);
 
-            if ($author_id != NULL && $author_id != FALSE
-                && $category_id != NULL && $category_id != FALSE) {
+            if ($author_id != NULL && $author_id != FALSE && $category_id != NULL && $category_id != FALSE) {
                 $quotes = get_quotes_by_both($author_id, $category_id);
 
             } else if ($author_id != NULL && $author_id != FALSE) {
@@ -99,6 +98,18 @@
 
             } else {
                 approveSuggestion($suggestion_id);
+                header("Location: admin.php");
+            }
+        break;
+
+        case 'delete_suggestion':
+            $suggestion_id = filter_input(INPUT_POST, 'suggestion_id', FILTER_VALIDATE_INT);
+            if ($suggestion_id == NULL || $suggestion_id == FALSE) {
+                $error = "Missing or incorrect suggestion id.";
+                include('../errors/error.php');
+
+            } else {
+                delete_suggestion($suggestion_id);
                 header("Location: admin.php");
             }
         break;

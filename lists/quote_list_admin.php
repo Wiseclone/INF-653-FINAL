@@ -27,6 +27,7 @@
                         <?php endforeach; ?>
                     </select> 
                 <?php } ?>
+                <input type="submit" value="Search" class="button blue button-slim">
             </section>
         </form>
     </nav>

@@ -23,7 +23,7 @@
 
     function get_quotes_by_category($category_id) {
         global $db;
-        if ($type_id == NULL || $type_id == FALSE) {
+        if ($category_id == NULL || $category_id == FALSE) {
             $query = getDefaultQuoteQuery();
         } else {
             $query = 'SELECT * 
@@ -40,12 +40,12 @@
 
     function get_quotes_by_both($author_id, $category_id) {
         global $db;
-        if ($make == NULL || $make == FALSE) {
+        if ($author_id == NULL || $author_id == FALSE || $category_id == NULL || $category_id == FALSE) {
             $query = getDefaultQuoteQuery();
         } else {
             $query = 'SELECT * 
                 FROM quotes
-                WHERE authorId = :author_id AND categoryId = category_id';
+                WHERE authorId = :author_id AND categoryId = :category_id';
         }
         $statement = $db->prepare($query);
         $statement->bindValue(':author_id', $author_id);

@@ -25,6 +25,14 @@
                                     <input type="submit" value="Approve" class="button blue">
                                 </form>
                             </td>
+                            <td>
+                                <form action="../admin/admin.php" method="post">
+                                    <input type="hidden" name="action" value="delete_suggestion">
+                                    <input type="hidden" name="suggestion_id"
+                                        value="<?php echo $suggestion['id']; ?>">
+                                    <input type="submit" value="Deny" class="button red">
+                                </form>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>

@@ -54,4 +54,16 @@
         addEachMissing($suggestion);
         delete_suggestion($suggestion_id);
     }
+
+    function getRandom($set, $count) {
+        $keys = array_rand($set, $count);
+        if ($count == 1){ // Output a quote instead of an array if only 1 is requested
+            return $set[$keys];
+        }
+        $results = array();
+        foreach ($keys as $key){
+            array_push($results,$set[$key]);
+        }
+        return $results;
+    }
 ?>

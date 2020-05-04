@@ -1,15 +1,15 @@
 <?php 
-    function getDefaultQuery() {
-        return 'SELECT text, authorId, categoryId 
+    function getDefaultQuoteQuery() {
+        return 'SELECT * 
         FROM quotes';
     }
 
     function get_quotes_by_author($author_id) {
         global $db;
         if ($author_id == NULL || $author_id == FALSE) {
-            $query = getDefaultQuery();
+            $query = getDefaultQuoteQuery();
         } else {
-            $query = 'SELECT text, authorId, categoryId 
+            $query = 'SELECT * 
             FROM quotes 
             WHERE authorId = :author_id ';
         }
@@ -24,9 +24,9 @@
     function get_quotes_by_category($category_id) {
         global $db;
         if ($type_id == NULL || $type_id == FALSE) {
-            $query = getDefaultQuery();
+            $query = getDefaultQuoteQuery();
         } else {
-            $query = 'SELECT text, authorId, categoryId 
+            $query = 'SELECT * 
             FROM quotes  
             WHERE categoryId = :category_id';
         }
@@ -41,9 +41,9 @@
     function get_quotes_by_both($author_id, $category_id) {
         global $db;
         if ($make == NULL || $make == FALSE) {
-            $query = getDefaultQuery();
+            $query = getDefaultQuoteQuery();
         } else {
-            $query = 'SELECT text, authorId, categoryId 
+            $query = 'SELECT * 
                 FROM quotes
                 WHERE authorId = :author_id AND categoryId = category_id';
         }
@@ -58,7 +58,7 @@
 
     function get_all_quotes() {
         global $db;
-        $query = getDefaultQuery();
+        $query = getDefaultQuoteQuery();
         $statement = $db->prepare($query);
         $statement->execute();
         $quotes = $statement->fetchAll();

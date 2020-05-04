@@ -1,12 +1,12 @@
 <?php 
-    function getDefaultQuery() {
-        return 'SELECT authorId, name 
+    function getDefaultAuthorQuery() {
+        return 'SELECT id, name 
         FROM authors';
     }
 
     function get_all_authors() {
         global $db;
-        $query = getDefaultQuery();
+        $query = getDefaultAuthorQuery();
         $statement = $db->prepare($query);
         $statement->execute();
         $authors = $statement->fetchAll();
@@ -16,7 +16,7 @@
 
     function get_author($author_id) {
         global $db;
-        $query = 'SELECT * FROM authors WHERE authorId = :author_id';
+        $query = 'SELECT * FROM authors WHERE id = :author_id';
         $statement = $db->prepare($query);
         $statement->bindValue(':author_id', $author_id);
         $statement->execute();
@@ -27,7 +27,7 @@
 
     function delete_author($author_id) {
         global $db;
-        $query = 'DELETE FROM authors WHERE authorId = :author_id';
+        $query = 'DELETE FROM authors WHERE id = :author_id';
         $statement = $db->prepare($query);
         $statement->bindValue(':author_id', $author_id);
         $statement->execute();

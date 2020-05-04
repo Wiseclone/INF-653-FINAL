@@ -1,6 +1,7 @@
+<?php include '../view/header-admin.php'; ?>
 <main>
     <nav>
-        <form action="." method="get" id="author_selection">
+        <form action="../admin/admin.php" method="get" id="author_selection">
             <section id="dropmenus">
                 <?php if ( sizeof($authors) != 0) { ?>
                     
@@ -30,7 +31,7 @@
         </form>
     </nav>
     <section>
-        <?php if( sizeof($quotes) != 0 ) { ?>
+    <?php if( sizeof($quotes) != 0 ) { ?>
             <div id="table-overflow">
                 <table>
                     <thead>
@@ -46,6 +47,14 @@
                             <td><?php echo $quote['text']; ?></td>
                             <td><?php echo getNameFromId($authors,$quote['authorId']); ?></td>
                             <td><?php echo getNameFromId($categories,$quote['categoryId']); ?></td>
+                            <td>
+                                <form action="../admin/admin.php" method="post">
+                                    <input type="hidden" name="action" value="delete_quote">
+                                    <input type="hidden" name="quote_id"
+                                        value="<?php echo $quote['id']; ?>">
+                                    <input type="submit" value="Remove" class="button red">
+                                </form>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>

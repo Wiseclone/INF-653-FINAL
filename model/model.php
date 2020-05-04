@@ -14,6 +14,14 @@
         endforeach;
         return false;
     }
+    function getNameFromId($set,$id){
+        foreach($set as $item):
+            if($item['id'] == $id){
+                return $item['name'];
+            }
+        endforeach;
+        return false;
+    }
 
     function addEachMissing($quote){
         $authors = get_all_authors();
@@ -33,7 +41,7 @@
         // Check to see if a new category needs to be added to the database
         $category_id = getIdFromName($categories,$quote['category']);
         if($category_id == false){ // Add category to database and update list
-            add_category($quote['name']);
+            add_category($quote['category']);
             $categories = get_all_categories();
             $category_id = getIdFromName($categories,$quote['category']);
         }

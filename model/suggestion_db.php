@@ -1,12 +1,12 @@
 <?php 
-    function getDefaultQuery() {
-        return 'SELECT text, author, category 
+    function getDefaultSuggestionQuery() {
+        return 'SELECT * 
         FROM suggestions';
     }
 
     function get_all_suggestions() {
         global $db;
-        $query = getDefaultQuery();
+        $query = getDefaultSuggestionQuery();
         $statement = $db->prepare($query);
         $statement->execute();
         $suggestions = $statement->fetchAll();

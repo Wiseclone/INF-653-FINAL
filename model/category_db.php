@@ -1,12 +1,12 @@
 <?php 
-    function getDefaultQuery() {
-        return 'SELECT categoryId, name 
+    function getDefaultCategoryQuery() {
+        return 'SELECT id, name 
         FROM categories';
     }
 
     function get_all_categories() {
         global $db;
-        $query = getDefaultQuery();
+        $query = getDefaultCategoryQuery();
         $statement = $db->prepare($query);
         $statement->execute();
         $categories = $statement->fetchAll();
@@ -16,7 +16,7 @@
 
     function get_category($category_id) {
         global $db;
-        $query = 'SELECT * FROM categories WHERE categoryId = :category_id';
+        $query = 'SELECT * FROM categories WHERE id = :category_id';
         $statement = $db->prepare($query);
         $statement->bindValue(':category_id', $category_id);
         $statement->execute();
@@ -27,7 +27,7 @@
 
     function delete_category($category_id) {
         global $db;
-        $query = 'DELETE FROM categories WHERE categoryId = :category_id';
+        $query = 'DELETE FROM categories WHERE id = :category_id';
         $statement = $db->prepare($query);
         $statement->bindValue(':category_id', $category_id);
         $statement->execute();

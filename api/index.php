@@ -1,5 +1,8 @@
 <?php
     require("../model/model.php");
+
+    $postCode = 200;
+
     // Assign all the variables
     function setVars($action){
         $id = trim(filter_input($action, 'id'));
@@ -26,11 +29,13 @@
 
     // Getter
     function accessDatabase($data){
+        global $postCode;
         // Fetch results from database
         if($data["authorId"] != "" && $data["categoryId"] != ""){
             if(filter_var($data['authorId'], FILTER_VALIDATE_INT) && filter_var($data['categoryId'], FILTER_VALIDATE_INT)){
                 $results = get_quotes_by_both($data['authorId'],$data["categoryId"]);
             } else {
+                $postCode = 400;
                 return array("message"=>"Invalid Request: Id must be of type int or 'all'");
             }
         } elseif($data["authorId"] != "") {
@@ -40,6 +45,7 @@
                 if(filter_var($data['authorId'], FILTER_VALIDATE_INT)){
                     $results = get_quotes_by_author($data['authorId']);
                 } else {
+                    $postCode = 400;
                     return array("message"=>"Invalid Request: Id must be of type int or 'all'");
                 }
             }
@@ -50,6 +56,7 @@
                 if(filter_var($data['categoryId'], FILTER_VALIDATE_INT)){
                     $results = get_quotes_by_category($data['categoryId']);
                 } else {
+                    $postCode = 400;
                     return array("message"=>"Invalid Request: Id must be of type int or 'all'");
                 }
             }
@@ -62,6 +69,7 @@
             if (filter_var($data['limit'], FILTER_VALIDATE_INT)){
                 $results = getRandom($results,$data["limit"]);
             } else {
+                $postCode = 400;
                 return array("message"=>"Invalid Request: Limit must be of type int");
             }
         } else if($data["random"] != ""){
@@ -70,16 +78,34 @@
             if (filter_var($data['limit'], FILTER_VALIDATE_INT)){
                 $results = array_slice($results,0,$data['limit']);
             } else {
+                $postCode = 400;
                 return array("message"=>"Invalid Request: Limit must be of type int");
             }
         }
 
+        $postCode = 200;
         return $results;
     }
 
     // Setter
     function editDatabase($data){
-
+        global $postCode;
+        // Sanitize input
+        if ($data["text"] == "") {
+            $postCode = 400;
+            return array("message"=>"Invalid Request: Quote text required");
+        }
+        if ($data["author"] == "") {
+            $postCode = 400;
+            return array("message"=>"Invalid Request: Quote author required");
+        }
+        if ($data["category"] == "") {
+            $postCode = 400;
+            return array("message"=>"Invalid Request: Quote category required");
+        }
+        add_suggestion($data["text"],$data["author"],$data["category"]);
+        $postCode = 200;
+        return array("message"=>"Suggestion sumbission successful");
     }
 
     //------------------------------------------------------------------------------------------
@@ -88,7 +114,7 @@
             $data = INPUT_GET;
             $data = setVars(INPUT_GET);
             $data = accessDatabase($data);
-            prepData(200,$data);
+            prepData($postCode,$data);
         break;
         case "POST": // Handle POST requests
             if (!isset($_SERVER["CONTENT_TYPE"])) { // Respond to improper request headers
@@ -100,8 +126,8 @@
                 prepData(200,$data);
             } else { // Set values
                 $data = setVars(INPUT_POST);
-                //$data = editDatabase($data);
-                prepData(200,$data);
+                $data = editDatabase($data);
+                prepData($postCode,$data);
             }
         break;
         default: // Respond to improper request types
